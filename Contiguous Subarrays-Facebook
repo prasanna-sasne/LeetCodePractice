@@ -1,0 +1,64 @@
+You are given an array arr of N integers. For each index i, you are required to determine the number of contiguous subarrays that fulfill the following conditions:
+The value at index i must be the maximum element in the contiguous subarrays, and
+These contiguous subarrays must either start from or end on index i.
+Signature
+int[] countSubarrays(int[] arr)
+Input
+Array arr is a non-empty list of unique integers that range between 1 to 1,000,000,000
+Size N is between 1 and 1,000,000
+Output
+An array where each index i contains an integer denoting the maximum number of contiguous subarrays of arr[i]
+Example:
+arr = [3, 4, 1, 6, 2]
+output = [1, 3, 1, 5, 1]
+Explanation:
+For index 0 - [3] is the only contiguous subarray that starts (or ends) at index 0 with the maximum value in the subarray being 3.
+For index 1 - [4], [3, 4], [4, 1]
+For index 2 - [1]
+For index 3 - [6], [6, 2], [1, 6], [4, 1, 6], [3, 4, 1, 6]
+For index 4 - [2]
+So, the answer for the above input is [1, 3, 1, 5, 1]
+
+##Solution
+The intuition behind this problem is to find, for each element in the array, the number of contiguous subarrays in which the element is the maximum. Specifically, these subarrays must either start or end at the current index.
+
+1. Initialization: Initialize an empty result array to store the count for each index.
+2. Iteration through the array: For each element in the array, consider it as the potential maximum in a subarray.
+3. Counting to the left: Move to the left of the current index and count the number of consecutive elements that are smaller than the current element. These elements will be part of subarrays that end at the current index.
+4. Counting to the right: Move to the right of the current index and count the number of consecutive elements that are smaller than the current element. These elements will be part of subarrays that start at the current index.
+5. Total Count: The sum of the counts from steps 3 and 4 represents the total number of contiguous subarrays where the current element is the maximum.
+6. Repeat for all indices: Repeat steps 2-5 for each element in the array.
+7. Output: The result array contains the counts for each index, indicating the maximum number of contiguous subarrays where the corresponding element is the maximum.
+
+## Complexity
+The outer loop runs through each element in the array once, and for each element, you have two while loops that iterate to the left and right until certain conditions are met. In the worst case, each while loop could iterate through the entire array.
+Therefore, the time complexity of your solution is O(N^2), where N is the length of the input array.
+This is because, in the worst case, for each element, you may end up traversing the entire array to the left and the entire array to the right. As a result, the overall time complexity becomes quadratic in terms of the length of the input array.
+
+##Soluion 
+
+
+` 
+  function countSubarrays(arr) {
+    // Write your code here
+    let result = []; 
+    for(let i = 0; i < arr.length; i++){
+      const item = arr[i];
+      let left = i-1;
+      let right= i+1;
+      let count = 1;
+      while(left >= 0 && arr[left] < item){
+        left--;
+        count++;
+      }
+      
+      while(right < arr.length && arr[right] < item){
+        right++;
+        count++;
+      }
+      result.push(count);
+   }
+    return result;
+  }
+
+`
